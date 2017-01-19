@@ -6,6 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="base.css">
 		<link rel="stylesheet" href="index.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
 	</head>
 
 	<body>
@@ -14,19 +16,28 @@
 				<div>
 				<section>
 					<form>
-						<input placeholder='username'/>
-						<input placeholder='password'/>
-						<button>Login</button>
+						<input data-bind='value: username' placeholder='username'/>
+						<input data-bind='value: password' placeholder='password'/>
+						<input data-bind='value: email, visible:!isSignUpOn()' placeholder='email'/>
+						<button data-bind='visible:isSignUpOn(), click:loginHandler'>Login</button>
+						<button data-bind='visible:!isSignUpOn()'>Sign Up</button>
 					</form>
 				</section>
-				<section>
+				<section data-bind='visible:isSignUpOn()'>
 					<div>
 						<span>Don't have an account ?</span>
-						<button class='btn-small'>Sign Up</button>
+						<button class='btn-small' data-bind='click:toggleSignUp'>Sign Up</button>
+					</div>
+				</section>
+				<section data-bind='visible:!isSignUpOn()'>
+					<div>
+						<span>Already have an account ?</span>
+						<button class='btn-small' data-bind='click:toggleSignUp'>Login</button>
 					</div>
 				</section>
 			</div>
 		</div>
+	<script src="view-models/indexVM.js"></script>
 	</body>
 
 </html>
