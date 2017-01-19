@@ -16,11 +16,12 @@
 				<div>
 				<section>
 					<form>
-						<input data-bind='value: username' placeholder='username'/>
-						<input data-bind='value: password' placeholder='password'/>
-						<input data-bind='value: email, visible:!isSignUpOn()' placeholder='email'/>
+						<input data-bind='value: username' placeholder='Enter username'/>
+						<input data-bind='value: password' placeholder='Enter password'/>
+						<input data-bind='value: confirmPassword, visible:!isSignUpOn()' placeholder='Re-enter Password'/>
+						<input data-bind='value: email, visible:!isSignUpOn()' placeholder='Enter email'/>
 						<button data-bind='visible:isSignUpOn(), click:loginHandler'>Login</button>
-						<button data-bind='visible:!isSignUpOn()'>Sign Up</button>
+						<button data-bind='visible:!isSignUpOn(), click:signUpHandler'>Sign Up</button>
 					</form>
 				</section>
 				<section data-bind='visible:isSignUpOn()'>
@@ -35,6 +36,9 @@
 						<button class='btn-small' data-bind='click:toggleSignUp'>Login</button>
 					</div>
 				</section>
+				<div id='message' class='err'>
+					<strong data-bind='text: message'></strong>
+				</div>
 			</div>
 		</div>
 	<script src="view-models/indexVM.js"></script>
