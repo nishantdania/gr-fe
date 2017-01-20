@@ -2,6 +2,8 @@ var CouponsViewModel = function() {
 	self = this;
 	this.message = ko.observable();
 
+	this.coupons = ko.observableArray([]);
+
 	this.id = ko.observable();
 	this.percent_off = ko.observable();
 	this.amount_off = ko.observable();
@@ -19,6 +21,14 @@ var CouponsViewModel = function() {
 	]);
 	self.selectedDuration = ko.observable(self.duration[0]);
 
+	this.updateCoupons = function(data) {
+		self.coupons([]);
+		data.forEach(function(item) {
+			var coupon = new Coupon(item.id, item.amount_off, item.percent_off);
+			self.coupons.push(coupon);
+		});
+	}
+
 	this.pageLoad = function() {
 		if(localStorage.getItem("token") !== null) {
 			var authToken = 'Bearer ' + localStorage.getItem("token");
@@ -31,6 +41,7 @@ var CouponsViewModel = function() {
 				crossDomain: true,
 				success: function(returnedData) 
 				{ 
+					self.updateCoupons(returnedData.coupons.data);
 					console.log(returnedData.coupons.data);
 				},
 				error: function() { 
@@ -66,7 +77,7 @@ var CouponsViewModel = function() {
 		var data = {};
 		this.coupon = {};
 		this.coupon.id = this.id();
-		if(this.percent_off() != undefined)
+		if(this.percent_off() != undefined && this.percent_off() != '')
 			this.coupon.percent_off = this.percent_off();
 		else
 			this.coupon.amount_off = this.amount_off();
@@ -93,12 +104,40 @@ var CouponsViewModel = function() {
 				console.log(returnedData);
 			},
 			error: function(returnedData) { 
-				var error =  returnedData.responseJSON.err.value ? returnedData.responseJSON.err.message.toString() + returnedData.responseJSON.err.param.toString(): returnedData.responseJSON.err.message.toString();
+				var error =  returnedData.responseJSON.err.param ? returnedData.responseJSON.err.message.toString() + returnedData.responseJSON.err.param.toString(): returnedData.responseJSON.err.message.toString();
 				self.message(error);
 				$("#message").show().delay(5000).fadeOut();
 			}
 		});
 	};
+
+
+	this.removeCoupon = function() {
+		var authToken = 'Bearer ' + localStorage.getItem("token");
+		var data = {};
+		data.id = this.id();
+		var that = this;
+		$.ajax({
+			method:'POST',
+			url: 'http://localhost:1337/removeCoupon/',
+			beforeSend: function(request) {
+				request.setRequestHeader("Authorization", authToken);
+			},
+			data: JSON.stringify(data),
+			crossDomain: true,
+			dataType: 'json',
+			contentType: 'json',
+			success: function(returnedData) 
+			{ 
+				self.coupons.remove(that);
+				console.log(self.coupons());
+			},
+			error: function(returnedData) { 
+				alert('An error occurred');
+			}
+		});
+
+	}
 };
  
 ko.applyBindings(new CouponsViewModel());

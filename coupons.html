@@ -31,8 +31,19 @@
 					<strong data-bind='text: message'></strong>
 				</div>
 			</section>			
+			<section>
+				<h4>Your Coupons</h4>
+				<ul data-bind='foreach: coupons' class='coupon-list'>
+					<li class='coupon-item'>
+						<span data-bind='text: id'></span>
+						<span data-bind='text: '\$'+ amount_off'></span>
+						<button data-bind='click: $parent.removeCoupon'>Remove</button>
+					</li>
+				</ul>
+			</section>
 		</div>
 	<script src="view-models/couponsVM.js"></script>
+	<script src="models/coupon.js"></script>
 	</body>
 
 </html>

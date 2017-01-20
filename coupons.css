@@ -33,3 +33,12 @@ button {
 	color : #212121;
 	line-height : 24px;
 }
+
+.coupon-list {
+	width : 100%;
+	color : black;
+	text-align : left;
+}
+.coupon-item {
+	width : 100%;
+}
