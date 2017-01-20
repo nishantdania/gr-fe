@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" data-framework="knockoutjs">
+	<head>
+		<meta charset="utf-8">
+		<title>Stripe Coupons</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="base.css">
+		<link rel="stylesheet" href="coupons.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+	</head>
+
+	<body>
+		<div class='page-outer'>
+			<section>
+				<input data-bind='value: id' placeholder='ID(code)'/>
+				<input data-bind='value: percent_off' placeholder='Percent off'/>
+				<input data-bind='value: amount_off' placeholder='Amount off'/>
+				<input data-bind='value: max_redemptions' placeholder='Max redemptions'/>
+				<input data.bind='datePicker: redeem_by' type='date' placeholder='Redeem by'/>
+				<select data-bind='options: duration,
+					optionsText: function(item){
+						return item.durationType;
+					},
+					value: selectedDuration,
+					optionsCaption:'Duration''
+				></select>
+				<input data-bind='value: duration_in_months, visible: selectedDuration().durationValue == duration()[2].durationValue' placeholder='Duration in months'/>
+				<button data-bind='click: handleCreateCoupon'>Create Coupon</button>
+				<div id='message' class='err'>
+					<strong data-bind='text: message'></strong>
+				</div>
+			</section>			
+		</div>
+	<script src="view-models/couponsVM.js"></script>
+	</body>
+
+</html>

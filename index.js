@@ -4,7 +4,7 @@ var app = express()
 app.use(express.static(__dirname));
 
 app.get('/coupons', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/coupons.html');
 })
 
 app.get('*', function (req, res) {
